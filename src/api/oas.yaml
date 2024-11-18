@@ -106,20 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  message:
-                    type: string
-                    example: Example not found
-                  appCode:
-                    type: string
-                    example: UNKNOWN_ERROR
-                  timestamp:
-                    type: string
-                    example: '2023-10-01T12:00:00.000Z'
+                $ref: '#/components/schemas/Error'
     put:
       summary: Update an existing example by ID
       tags:
@@ -164,20 +151,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  message:
-                    type: string
-                    example: Example not found
-                  appCode:
-                    type: string
-                    example: UNKNOWN_ERROR
-                  timestamp:
-                    type: string
-                    example: '2023-10-01T12:00:00.000Z'
+                $ref: '#/components/schemas/Error'
     delete:
       summary: Delete an example by ID
       tags:
@@ -197,20 +171,111 @@ paths:
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/Error'
+  /interestFilter:
+    post:
+      summary: Create a new interestFilter
+      tags:
+        - InterestFilter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewInterestFilter'
+      responses:
+        '201':
+          description: The created interestFilter
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
                   status:
                     type: string
-                    example: error
+                    example: success
                   message:
                     type: string
-                    example: Example not found
+                    example: InterestFilter created successfully
+                  data:
+                    $ref: '#/components/schemas/InterestFilter'
                   appCode:
                     type: string
-                    example: UNKNOWN_ERROR
+                    example: OK
                   timestamp:
                     type: string
                     example: '2023-10-01T12:00:00.000Z'
+  /interestFilter/{userId}: 
+    get:
+      summary: Get a specific interestFilter by userId
+      tags:
+        - InterestFilter
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: userId of the interestFilter to get
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested interestFilter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestFilter'
+        '404':
+          description: InterestFilter not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /interestFilter/{id}:
+    put:
+      summary: Update an existing interestFilter by ID
+      tags:
+        - InterestFilter
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the interestFilter to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterestFilter'
+      responses:
+        '200':
+          description: The updated interestFilter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: InterestFilter updated successfully
+                  data:
+                    $ref: '#/components/schemas/InterestFilter'
+                  appCode:
+                    type: string
+                    example: OK
+                  timestamp:
+                    type: string
+                    example: '2023-10-01T12:00:00.000Z'
+        '404':
+          description: InterestFilter not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Example:
@@ -240,3 +305,65 @@ components:
       required:
         - name
         - value
+    InterestFilter:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '60c72b2f9b1d8f0d8d0b6f9e'
+        userId:
+          type: string
+          example: '12345abcde'
+        categoryList:
+          type: array
+          items:
+            type: string
+            enum:
+              - NATURE
+              - CITY
+              - CULTURE
+              - ADVENTURE
+              - RELAX
+          example:
+            - NATURE
+            - CULTURE
+      required:
+        - userId
+        - categoryList
+    NewInterestFilter:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: '12345abcde'
+        categoryList:
+          type: array
+          items:
+            type: string
+            enum:
+              - NATURE
+              - CITY
+              - CULTURE
+              - ADVENTURE
+              - RELAX
+          example:
+            - CITY
+            - ADVENTURE
+      required:
+        - userId
+        - categoryList
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: InterestFilter not found
+        appCode:
+          type: string
+          example: UNKNOWN_ERROR
+        timestamp:
+          type: string
+          example: '2023-10-01T12:00:00.000Z'
