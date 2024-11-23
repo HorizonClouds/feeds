@@ -1,43 +1,52 @@
 import InterestFilterModel from '../models/interestFilterModel.js';
-import { NotFoundError, BadRequestError } from '../utils/customErrors.js';
+import { NotFoundError, ValidationError } from '../utils/customErrors.js';
 
 export const createInterestFilter = async (data) => {
+  let newInterestFilter;
   try {
-    const newInterestFilter = new InterestFilterModel(data);
-    return await newInterestFilter.save();
+    newInterestFilter = new InterestFilterModel(data);
+    await newInterestFilter.validate();
   } catch (error) {
-    if (error instanceof mongoose.Error.ValidationError) {
-      throw new ValidationError('Validation failed', error.errors);
-    }
-    throw new BadRequestError('Error creating InterestFilter', error);
+    throw new ValidationError('Mongoose validation exception while creating interestFilter', error);
   }
-};
+  try {
+    const existingInterestFilterForUserId = await InterestFilterModel.findOne({userId: data.userId});
+    if(existingInterestFilterForUserId)
+      throw new Error()
+  } catch (error) {
+    throw new ValidationError(`Invalid interestFilter creation, due to existing interestFilter for userId: ${data.userId}`, error)
+  }
 
+  return await newInterestFilter.save();
+};
 
 export const getInterestFilterByUserId = async (userId) => {
   try {
     const interestFilter = await InterestFilterModel.findOne({ userId: userId });
-    if (!interestFilter) {
-      throw new NotFoundError('InterestFilter not found');
-    }
+    if(!interestFilter)
+      throw new Error()
     return interestFilter;
   } catch (error) {
-    throw new NotFoundError('Error fetching InterestFilter by userId', error);
+    throw new NotFoundError(`InterestFilter with userId: ${userId} not found while getting`, error);
   }
 };
 
 export const updateInterestFilter = async (id, data) => {
   try {
+    const existingInterestFilterForUserId = await InterestFilterModel.findOne({_id: id});
+    if(!existingInterestFilterForUserId)
+      throw new Error()
+  } catch (error) {
+    throw new NotFoundError(`InterestFilter with id: ${id} not found while updating`, error);
+  }
+  try {
     const updatedInterestFilter = await InterestFilterModel.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
     });
-    if (!updatedInterestFilter) {
-      throw new NotFoundError('InterestFilter not found');
-    }
     return updatedInterestFilter;
   } catch (error) {
-    throw new NotFoundError('Error updating InterestFilter', error);
+    throw new ValidationError(`InterestFilter with id: ${id} not able to update`, error);
   }
 };
 

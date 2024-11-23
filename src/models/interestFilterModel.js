@@ -10,6 +10,7 @@ const interestFilterSchema = new mongoose.Schema({
   },
   categoryList: {
     type: [String],
+    required: [true, 'categoryList is required'],
     enum: {
       values: ['NATURE', 'CITY', 'CULTURE','ADVENTURE','RELAX'], 
       message: '{VALUE} is not a valid role', 

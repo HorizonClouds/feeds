@@ -247,7 +247,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InterestFilter'
+              $ref: '#/components/schemas/UpdateInterestFilter'
       responses:
         '200':
           description: The updated interestFilter
@@ -263,7 +263,7 @@ paths:
                     type: string
                     example: InterestFilter updated successfully
                   data:
-                    $ref: '#/components/schemas/InterestFilter'
+                    $ref: '#/components/schemas/UpdateInterestFilter'
                   appCode:
                     type: string
                     example: OK
@@ -351,6 +351,24 @@ components:
             - ADVENTURE
       required:
         - userId
+        - categoryList
+    UpdateInterestFilter:
+      type: object
+      properties:
+        categoryList:
+          type: array
+          items:
+            type: string
+            enum:
+              - NATURE
+              - CITY
+              - CULTURE
+              - ADVENTURE
+              - RELAX
+          example:
+            - CITY
+            - ADVENTURE
+      required:
         - categoryList
     Error:
       type: object
