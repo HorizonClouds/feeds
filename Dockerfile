@@ -9,6 +9,8 @@ COPY . .
 ENV BACKEND_PORT=3000
 
 # Expose the port
+ARG PORT=80
+ENV PORT $PORT
 EXPOSE $PORT
 
 CMD ["npm", "run", "start"]
