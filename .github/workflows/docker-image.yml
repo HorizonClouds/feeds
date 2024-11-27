@@ -8,8 +8,7 @@ on:
 jobs:
   upload-to-docker-hub:
       runs-on: ubuntu-latest
-      needs: generate-tag
-
+      
       steps:
         - name: Checkout repository
           uses: actions/checkout@v2
