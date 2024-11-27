@@ -14,14 +14,13 @@ import './utils/logger.js';
 
 dotenv.config(); // Load environment variables
 
-app.use(cors());
-
 const app = express(); // Create an Express application
 const port = process.env.BACKEND_PORT || 3000; // Define port
 
 // Middlewares
 app.use(express.json()); // Parse JSON bodies
 app.use(standardizedResponse); // Use custom response middleware
+app.use(cors());
 
 // Routes
 app.use('/api', exampleApiRouter); // Use API routes
