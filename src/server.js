@@ -9,9 +9,12 @@ import dotenv from 'dotenv'; // Import dotenv for environment variables
 import standardizedResponse from './middlewares/standardResponse.js'; // Import custom response middleware
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import errorHandler from './middlewares/errorHandler.js';
+import cors from 'cors'; // Import CORS middleware
 import './utils/logger.js';
 
 dotenv.config(); // Load environment variables
+
+app.use(cors());
 
 const app = express(); // Create an Express application
 const port = process.env.BACKEND_PORT || 3000; // Define port
