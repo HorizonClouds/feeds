@@ -3,7 +3,6 @@
 import express from 'express'; // Import Express framework
 import mongoose from 'mongoose'; // Import Mongoose for MongoDB
 import { swaggerSetup } from './swagger.js'; // Import Swagger setup
-import exampleApiRouter from './routes/exampleRoute.js'; // Import API routes
 import interestFilterApiRouter from './routes/interestFilterRoute.js'; // Import API routes
 import dotenv from 'dotenv'; // Import dotenv for environment variables
 import standardizedResponse from './middlewares/standardResponse.js'; // Import custom response middleware
@@ -23,7 +22,6 @@ app.use(standardizedResponse); // Use custom response middleware
 app.use(cors());
 
 // Routes
-app.use('/api', exampleApiRouter); // Use API routes
 app.use('/api', interestFilterApiRouter);
 
 app.get('/', (req, res) => {
