@@ -15,7 +15,7 @@ const removeMongoFields = (data) => {
 export const createInterestFilter = async (req, res, next) => {
   try {
     const newInterestFilter = await interestFilterService.createInterestFilter(req.body);
-    loggerInfo(`Creating interestFilter with id: ${newInterestFilter._id}`)
+    logger.info(`Creating interestFilter with id: ${newInterestFilter._id}`)
     res.sendSuccess(
       removeMongoFields(newInterestFilter),
       'InterestFilter created successfully',
@@ -29,7 +29,7 @@ export const createInterestFilter = async (req, res, next) => {
 export const getInterestFilterByUserId = async (req, res, next) => {
   try {
     const interestFilter = await interestFilterService.getInterestFilterByUserId(req.params.userId);
-    loggerInfo(`Getting interestFilter with id: ${interestFilter._id}`)
+    logger.info(`Getting interestFilter with id: ${interestFilter._id}`)
     res.sendSuccess(removeMongoFields(interestFilter));
   } catch (error) {
     next(error);
@@ -45,7 +45,7 @@ export const updateInterestFilter = async (req, res, next) => {
       req.params.id,
       data
     );
-    loggerInfo(`Updating interestFilter with id: ${updatedInterestFilter._id}`)
+    logger.info(`Updating interestFilter with id: ${updatedInterestFilter._id}`)
     res.sendSuccess(
       removeMongoFields(updatedInterestFilter),
       'InterestFilter updated successfully'
