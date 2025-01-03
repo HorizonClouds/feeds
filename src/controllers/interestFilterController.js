@@ -57,7 +57,7 @@ export const updateInterestFilter = async (req, res, next) => {
 
 export const deleteInterestFilter = async (req, res, next) => {
   try {
-    const deletedExample = await interestFilterService.deleteInterestFilter(req.params.id);
+    const deletedInterestFilter = await interestFilterService.deleteInterestFilter(req.params.id);
     logger.info(`Deleting interestFilter with id: ${req.params.id}`)
     res.sendSuccess(null, 'InterestFilter deleted successfully', 204);
   } catch (error) {
