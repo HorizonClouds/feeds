@@ -5,8 +5,9 @@ import * as validateInterestValidator from '../middlewares/interestFilterValidat
 const router = express.Router();
 
 // Define routes
-router.post('/v1/interestFilter', validateInterestValidator.validateCreateInterestFilter, interestFilterController.createInterestFilter);
-router.get('/v1/interestFilter/:userId', interestFilterController.getInterestFilterByUserId);
-router.put('/v1/interestFilter/:id', validateInterestValidator.validateUpdateInterestFilter,interestFilterController.updateInterestFilter);
+router.post('/interestFilter', validateInterestValidator.validateCreateInterestFilter, interestFilterController.createInterestFilter);
+router.get('/interestFilter/:userId', interestFilterController.getInterestFilterByUserId);
+router.put('/interestFilter/:id', validateInterestValidator.validateUpdateInterestFilter,interestFilterController.updateInterestFilter);
+router.delete('/interestFilter/:id', interestFilterController.deleteInterestFilter);
 
 export default router;

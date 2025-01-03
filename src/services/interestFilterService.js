@@ -50,8 +50,20 @@ export const updateInterestFilter = async (id, data) => {
   }
 };
 
+export const deleteInterestFilter = async (id) => {
+  try {
+    const deletedInterestFilter = await InterestFilterModel.findByIdAndDelete(id);
+    if (!deletedInterestFilter)
+      throw new NotFoundError(`InterestFilter with id: ${id} not found while deleting`);
+    return deletedInterestFilter;
+  } catch (error) {
+    throw new NotFoundError(`Error deleting InterestFilter with id ${id}`, error);
+  }
+};
+
 export default {
   createInterestFilter,
   getInterestFilterByUserId,
   updateInterestFilter,
+  deleteInterestFilter,
 };

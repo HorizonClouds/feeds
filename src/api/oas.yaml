@@ -110,6 +110,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete an existing interestFilter by ID
+      tags:
+        - InterestFilter
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the interestFilter to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: InterestFilter deleted successfully
+        '404':
+          description: InterestFilter not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     InterestFilter:

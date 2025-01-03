@@ -22,7 +22,7 @@ app.use(standardizedResponse); // Use custom response middleware
 app.use(cors());
 
 // Routes
-app.use('/api', interestFilterApiRouter);
+app.use('/api/v1', interestFilterApiRouter);
 
 app.get('/', (req, res) => {
   // Redirect to API documentation
@@ -57,8 +57,8 @@ mongoose
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-  console.log(
+  logger.info(`Server is running on http://localhost:${port}`);
+  logger.info(
     `API documentation is available at http://localhost:${port}/api-docs`
   );
 });
