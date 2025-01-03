@@ -47,10 +47,10 @@ if (process.env.NODE_ENV === 'test') {
 mongoose
   .connect(mongoURI)
   .then(() => {
-    console.log('Connected to MongoDB');
+    logger.info('Connected to MongoDB');
   })
   .catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
+    logger.info('Error connecting to MongoDB:', error.message);
   });
 
 
