@@ -185,6 +185,7 @@ components:
             - CITY
             - ADVENTURE
       required:
+        - userId
         - categoryList
     UpdateInterestFilter:
       type: object
