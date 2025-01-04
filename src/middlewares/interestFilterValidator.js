@@ -3,10 +3,6 @@ import { ValidationError } from '../utils/customErrors.js';
 
 // Validation middleware for InterestFilterModel
 export const validateCreateInterestFilter = [
-  body('userId')
-    .exists({ checkNull: true })
-    .withMessage('userId is required'),
-  
   body('categoryList')
     .isArray()
     .withMessage('categoryList must be an array')

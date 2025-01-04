@@ -14,7 +14,10 @@ const removeMongoFields = (data) => {
 
 export const createInterestFilter = async (req, res, next) => {
   try {
-    const newInterestFilter = await interestFilterService.createInterestFilter(req.body);
+    let data = req.body;
+    data.userId = req.user.id;
+
+    const newInterestFilter = await interestFilterService.createInterestFilter(data);
     logger.info(`Creating interestFilter with id: ${newInterestFilter._id}`)
     res.sendSuccess(
       removeMongoFields(newInterestFilter),

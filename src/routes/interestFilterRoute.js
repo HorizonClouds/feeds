@@ -1,13 +1,14 @@
 import express from 'express';
 import * as interestFilterController from '../controllers/interestFilterController.js';
 import * as validateInterestValidator from '../middlewares/interestFilterValidator.js';
+import { checkAuth, checkPlan, checkRole, checkAddon } from '../middlewares/authMiddelwares.js';
 
 const router = express.Router();
 
 // Define routes
-router.post('/interestFilter', validateInterestValidator.validateCreateInterestFilter, interestFilterController.createInterestFilter);
-router.get('/interestFilter/:userId', interestFilterController.getInterestFilterByUserId);
-router.put('/interestFilter/:id', validateInterestValidator.validateUpdateInterestFilter,interestFilterController.updateInterestFilter);
-router.delete('/interestFilter/:id', interestFilterController.deleteInterestFilter);
+router.post('/interestFilter', checkAuth(), validateInterestValidator.validateCreateInterestFilter, interestFilterController.createInterestFilter);
+router.get('/interestFilter/:userId', checkAuth(), interestFilterController.getInterestFilterByUserId);
+router.put('/interestFilter/:id', checkAuth(), validateInterestValidator.validateUpdateInterestFilter,interestFilterController.updateInterestFilter);
+router.delete('/interestFilter/:id', checkAuth(), interestFilterController.deleteInterestFilter);
 
 export default router;
