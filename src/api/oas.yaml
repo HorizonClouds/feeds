@@ -5,6 +5,9 @@ info:
   description: API documentation for feeds microservice
 servers:
   - url: /api/v1
+    description: endpoint for development
+  - url: /api/v1/feeds/api/v1
+    description: endpoint for api gateway
 paths:
   /interestFilter:
     post:
