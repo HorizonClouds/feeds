@@ -1,5 +1,3 @@
-// InterestFilterModel.js
-
 import mongoose from 'mongoose'; // Import Mongoose
 
 // Create a schema for InterestFilter with validation

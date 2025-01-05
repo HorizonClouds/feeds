@@ -1,20 +1,22 @@
 import InterestFilterModel from '../models/interestFilterModel.js';
 import { NotFoundError, ValidationError } from '../utils/customErrors.js';
 
-export const createInterestFilter = async (data) => {
-  let newInterestFilter;
-  try {
-    newInterestFilter = new InterestFilterModel(data);
-    await newInterestFilter.validate();
-  } catch (error) {
-    throw new ValidationError('Mongoose validation exception while creating interestFilter', error);
-  }
+export const createInterestFilter = async (data) => {  
   try {
     const existingInterestFilterForUserId = await InterestFilterModel.findOne({userId: data.userId});
     if(existingInterestFilterForUserId)
       throw new Error()
   } catch (error) {
     throw new ValidationError(`Invalid interestFilter creation, due to existing interestFilter for userId: ${data.userId}`, error)
+  }
+
+  let newInterestFilter;
+  
+  try {
+    newInterestFilter = new InterestFilterModel(data);
+    await newInterestFilter.validate();
+  } catch (error) {
+    throw new ValidationError('Mongoose validation exception while creating interestFilter', error);
   }
 
   return await newInterestFilter.save();

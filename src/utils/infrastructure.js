@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '../config.js';
-import logger from './logger.js';
 import yaml from 'js-yaml';
 
 let infrastructure = null;

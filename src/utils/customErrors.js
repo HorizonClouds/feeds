@@ -37,9 +37,19 @@ export class ForbiddenError extends Error {
   }
 }
 
+export class ItinerariesServiceError extends Error {
+  constructor(message = 'Error in Itineraries Service', details) {
+    super('[EXCEPTION]: ' + message);
+    this.details = details;
+    this.appCode = stdOptions.appCodes.internalServerError;
+    this.statusCode = stdOptions.codes.internalServerError;
+  }
+}
+
 export default {
   NotFoundError,
   ValidationError,
   UnauthorizedError,
   ForbiddenError,
+  ItinerariesServiceError,
 };
