@@ -10,11 +10,12 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import errorHandler from './middlewares/errorHandler.js';
 import cors from 'cors'; // Import CORS middleware
 import './utils/logger.js';
+import config from './config.js';
 
 dotenv.config(); // Load environment variables
 
 const app = express(); // Create an Express application
-const port = process.env.BACKEND_PORT || 6101; // Define port
+const port = config.backendPort; // Define port
 
 // Middlewares
 app.use(express.json()); // Parse JSON bodies
@@ -35,9 +36,8 @@ app.use(errorHandler);
 swaggerSetup(app);
 
 // Connect to MongoDB
-let mongoURI =
-  process.env.MONGODB_URI || 'mongodb://localhost:27017/microservice';
-if (process.env.NODE_ENV === 'test') {
+let mongoURI = config.mongoUri;
+if (config.nodeEnv === 'test') {
   const mongod = new MongoMemoryServer(); // Fake MongoDB for testing
   await mongod.start();
   mongoURI = mongod.getUri();

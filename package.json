@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon -L",
-    "start-mongodb": "docker run --name mongodb -d -p 27017:27017 -v mongo-data:/data/db mongo",
+    "start-mongodb": "docker start feeds-mongodb || docker run --name feeds-mongodb -d -p 6102:27017 -v mongo-data:/data/db mongo",
     "format": "prettier --write \"src/**/*.{js,cjs,mjs}\"",
     "test": "vitest"
   },
