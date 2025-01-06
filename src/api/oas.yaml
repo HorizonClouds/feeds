@@ -3,6 +3,10 @@ info:
   title: Feeds API
   version: 1.0.0
   description: API documentation for feeds microservice
+  x-rateLimit:
+    window: 10 segundos
+    maxRequests: 100
+    message: Too many requests, please try again later.
 servers:
   - url: /api/v1
     description: endpoint for development
@@ -42,6 +46,12 @@ paths:
                   timestamp:
                     type: string
                     example: '2023-10-01T12:00:00.000Z'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
   /interestFilter/{userId}: 
     get:
       summary: Get a specific interestFilter by userId
@@ -67,6 +77,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
     put:
       summary: Update an existing interestFilter by userId
       tags:
@@ -112,6 +128,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'  
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
   /interestFilter/{id}:
     delete:
       summary: Delete an existing interestFilter by ID
@@ -133,6 +155,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
   /itinerariesFeed:
     post:
       summary: Create a new itinerariesFeed
@@ -166,6 +194,12 @@ paths:
                   timestamp:
                     type: string
                     example: '2023-10-01T12:00:00.000Z'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
   /itinerariesFeed/{userId}:
     get:
       summary: Get a specific itinerariesFeed by userId
@@ -191,6 +225,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
     put:
       summary: Update an existing itinerariesFeed by userId
       tags:
@@ -230,6 +270,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
 components:
   securitySchemes:
     bearerAuth:
@@ -346,5 +392,20 @@ components:
           example: '12345abcde'
       required:
         - userId
+    ThrottleError:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: Too many requests, please try again later.
+        appCode:
+          type: string
+          example: TOO_MANY_REQUESTS
+        timestamp:
+          type: string
+          example: '2023-10-01T12:00:00.000Z'
 security:
   - bearerAuth: []
