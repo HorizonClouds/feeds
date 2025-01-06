@@ -217,7 +217,7 @@ paths:
                     type: string
                     example: ItinerariesFeed updated successfully
                   data:
-                    $ref: '#/components/schemas/UpdateItinerariesFeed'
+                    $ref: '#/components/schemas/ItinerariesFeed'
                   appCode:
                     type: string
                     example: OK
