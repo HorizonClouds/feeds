@@ -7,7 +7,7 @@ import { ItinerariesServiceError } from '../utils/customErrors.js';
 export async function getItineraries() {
     const itinerariesServiceUrl = await getServiceUrl('itineraries');
     if (!itinerariesServiceUrl) {
-        logger.error('Cannot retrieve itinerary details: Itineraries service URL not found.');
+        logger.info('Cannot retrieve itinerary details: Itineraries service URL not found.');
         return null;
     }
     const token = jwt.sign({ serviceId: 'feeds-service', message: "Hello From FEEDS Service" }, config.jwtSecret, {});
@@ -22,7 +22,7 @@ export async function getItineraries() {
         logger.debug(JSON.stringify(response.data));
         return response.data;
     } catch (error) {
-        logger.error('Error retrieving itineraries');
+        logger.info('Error retrieving itineraries');
         throw new ItinerariesServiceError('Error retrieving itinerary details', { code: error.code, message: error.message, responseData: error.response?.data });
     }
 }

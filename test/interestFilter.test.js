@@ -63,7 +63,7 @@ describe('(Integration) InterestFilter Service Tests', () => {
       await interestFilter.save();
       const updatedData = { categoryList: ['CULTURE', 'ADVENTURE'] };
       const result = await interestFilterService.updateInterestFilter(
-        interestFilter._id,
+        interestFilter.userId,
         updatedData
       );
       expect(result).toHaveProperty('categoryList', ['CULTURE', 'ADVENTURE']);
@@ -135,7 +135,7 @@ describe('(Integration) InterestFilter Service Tests', () => {
       let error;
       try {
         await interestFilterService.updateInterestFilter(
-          interestFilter._id,
+          interestFilter.userId,
           updatedData
         );
       } catch (e) {

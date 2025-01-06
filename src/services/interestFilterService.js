@@ -33,22 +33,22 @@ export const getInterestFilterByUserId = async (userId) => {
   }
 };
 
-export const updateInterestFilter = async (id, data) => {
+export const updateInterestFilter = async (userId, data) => {
   try {
-    const existingInterestFilterForUserId = await InterestFilterModel.findOne({_id: id});
+    const existingInterestFilterForUserId = await InterestFilterModel.findOne({userId: userId});
     if(!existingInterestFilterForUserId)
       throw new Error()
   } catch (error) {
-    throw new NotFoundError(`InterestFilter with id: ${id} not found while updating`, error);
+    throw new NotFoundError(`InterestFilter with userId: ${userId} not found while updating`, error);
   }
   try {
-    const updatedInterestFilter = await InterestFilterModel.findByIdAndUpdate(id, data, {
+    const updatedInterestFilter = await InterestFilterModel.findOneAndUpdate({ userId: userId }, data, {
       new: true,
       runValidators: true,
     });
     return updatedInterestFilter;
   } catch (error) {
-    throw new ValidationError(`InterestFilter with id: ${id} not able to update`, error);
+    throw new ValidationError(`InterestFilter with userId: ${userId} not able to update`, error);
   }
 };
 

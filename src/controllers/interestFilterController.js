@@ -37,13 +37,13 @@ export const getInterestFilterByUserId = async (req, res, next) => {
   }
 };
 
-export const updateInterestFilter = async (req, res, next) => {
+export const updateInterestFilterByUserId = async (req, res, next) => {
   try {
     let data = req.body;
     // remove _id field from data
     delete data._id;
     const updatedInterestFilter = await interestFilterService.updateInterestFilter(
-      req.params.id,
+      req.params.userId,
       data
     );
     logger.info(`Updating interestFilter with id: ${updatedInterestFilter._id}`)

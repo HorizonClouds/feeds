@@ -67,16 +67,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /interestFilter/{id}:
     put:
-      summary: Update an existing interestFilter by ID
+      summary: Update an existing interestFilter by userId
       tags:
         - InterestFilter
       parameters:
         - in: path
-          name: id
+          name: userId
           required: true
-          description: ID of the interestFilter to update
+          description: userId of the interestFilter to update
           schema:
             type: string
       requestBody:
@@ -100,7 +99,7 @@ paths:
                     type: string
                     example: InterestFilter updated successfully
                   data:
-                    $ref: '#/components/schemas/UpdateInterestFilter'
+                    $ref: '#/components/schemas/InterestFilter'
                   appCode:
                     type: string
                     example: OK
@@ -112,7 +111,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'  
+  /interestFilter/{id}:
     delete:
       summary: Delete an existing interestFilter by ID
       tags:

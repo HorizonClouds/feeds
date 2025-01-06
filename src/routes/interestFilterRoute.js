@@ -8,7 +8,7 @@ const router = express.Router();
 // Define routes
 router.post('/interestFilter', checkAuth(), validateInterestValidator.validateCreateInterestFilter, interestFilterController.createInterestFilter);
 router.get('/interestFilter/:userId', checkAuth(), interestFilterController.getInterestFilterByUserId);
-router.put('/interestFilter/:id', checkAuth(), validateInterestValidator.validateUpdateInterestFilter,interestFilterController.updateInterestFilter);
+router.put('/interestFilter/:userId', checkAuth(), validateInterestValidator.validateUpdateInterestFilter,interestFilterController.updateInterestFilter);
 router.delete('/interestFilter/:id', checkAuth(), interestFilterController.deleteInterestFilter);
 
 export default router;
