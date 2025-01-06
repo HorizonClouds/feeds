@@ -3,6 +3,7 @@ import InterestFilterModel from '../models/interestFilterModel.js';
 import { NotFoundError, ValidationError } from '../utils/customErrors.js';
 import { getItineraries } from './itinerariesService.js';
 import { getInterestFilterByUserId, createInterestFilter } from './interestFilterService.js';
+import config from '../config.js';
 
 export const createItinerariesFeed = async (userId) => {
   try {
@@ -15,7 +16,11 @@ export const createItinerariesFeed = async (userId) => {
   let prioritizedItineraries;
 
   try {
-     prioritizedItineraries = await getPrioritizedItineraries(userId);
+    if(config.infrastructureIntegration === 'true') {
+      prioritizedItineraries = await getPrioritizedItineraries(userId);
+    } else {
+      prioritizedItineraries = [];
+    }
   } catch (error) {
     throw new NotFoundError(`Error getting prioritized itineraries for userId: ${userId} while creating ItinerariesFeed`, error);
   }
@@ -93,12 +98,14 @@ export const updateItinerariesFeed = async (userId) => {
 
   let prioritizedItineraries;
   try {
-    prioritizedItineraries = await getPrioritizedItineraries(userId);
+    if(config.infrastructureIntegration === 'true')
+      prioritizedItineraries = await getPrioritizedItineraries(userId);
+    else
+      prioritizedItineraries = [];
   } catch (error) {
     throw new NotFoundError(`Error getting prioritized itineraries for userId: ${userId} while updating ItinerariesFeed`, error);
   }
   
-
   try {
     const updatedItinerariesFeed = await ItinerariesFeedModel.findOneAndUpdate({ userId: userId }, {
         itineraryList: prioritizedItineraries,

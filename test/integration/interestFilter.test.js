@@ -1,17 +1,9 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-  beforeAll,
-  afterAll,
-} from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import InterestFilterModel from '../src/models/interestFilterModel.js';
-import * as interestFilterService from '../src/services/interestFilterService.js';
-import { ValidationError, NotFoundError } from '../src/utils/customErrors.js';
+import InterestFilterModel from '../../src/models/interestFilterModel.js';
+import * as interestFilterService from '../../src/services/interestFilterService.js';
+import { ValidationError, NotFoundError } from '../../src/utils/customErrors.js';
 
 const exampleInterestFilter = {
   userId: 'user1',
