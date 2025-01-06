@@ -2,7 +2,8 @@ import { createClient } from 'redis';
 import config from '../config.js';
 
 let client;
-getClient();
+if(config.infrastructureIntegration === 'true')
+    getClient();
 
 async function getClient() {
     if (client) return client;
