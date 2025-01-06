@@ -7,9 +7,9 @@ export default {
   backendPort: process.env.BACKEND_PORT || 6101,
   mongoUri: process.env.MONGODB_URI || 'mongodb://localhost:6102/feeds',
   logLevel: process.env.LOGLEVEL || 'INFO',
-  infrastructureIntegration: process.env.INFRASTRUCTURE_INTEGRATION || true,
+  infrastructureIntegration: process.env.INFRASTRUCTURE_INTEGRATION || false,
   // JWT secret
-  jwtSecret: process.env.JWT_SECRET || 'horizon',
+  jwtSecret: process.env.JWT_SECRET || 'horizon-secret',
   // Kafka configuration
   kafkaEnabled: process.env.KAFKA_ENABLED || false,
   kafkaBroker: process.env.KAFKA_BROKER || 'localhost:9092',

@@ -19,6 +19,8 @@ describe('(Integration) ItinerariesFeed Service Tests', () => {
     config.infrastructureIntegration = false;
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
+    if (mongoose.connection.readyState !== 0) 
+              await mongoose.disconnect();
     await mongoose.connect(mongoUri);
   });
 
