@@ -133,6 +133,103 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /itinerariesFeed:
+    post:
+      summary: Create a new itinerariesFeed
+      tags:
+        - ItinerariesFeed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewItinerariesFeed'
+      responses:
+        '201':
+          description: The created itinerariesFeed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: ItinerariesFeed created successfully
+                  data:
+                    $ref: '#/components/schemas/ItinerariesFeed'
+                  appCode:
+                    type: string
+                    example: OK
+                  timestamp:
+                    type: string
+                    example: '2023-10-01T12:00:00.000Z'
+  /itinerariesFeed/{userId}:
+    get:
+      summary: Get a specific itinerariesFeed by userId
+      tags:
+        - ItinerariesFeed
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: userId of the itinerariesFeed to get
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested itinerariesFeed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItinerariesFeed'
+        '404':
+          description: ItinerariesFeed not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update an existing itinerariesFeed by userId
+      tags:
+        - ItinerariesFeed
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: userId of the itinerariesFeed to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The updated itinerariesFeed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: ItinerariesFeed updated successfully
+                  data:
+                    $ref: '#/components/schemas/UpdateItinerariesFeed'
+                  appCode:
+                    type: string
+                    example: OK
+                  timestamp:
+                    type: string
+                    example: '2023-10-01T12:00:00.000Z'
+        '404':
+          description: ItinerariesFeed not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
     bearerAuth:
@@ -220,5 +317,34 @@ components:
         timestamp:
           type: string
           example: '2023-10-01T12:00:00.000Z'
+    ItinerariesFeed:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '60c72b2f9b1d8f0d8d0b6f9e'
+        userId:
+          type: string
+          example: '12345abcde'
+        creationDate:
+          type: string
+          format: date-time
+          example: '2023-10-01T12:00:00.000Z'
+        itineraryList:
+          type: array
+          items:
+            type: object
+      required:
+        - userId
+        - creationDate
+        - itineraryList
+    NewItinerariesFeed:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: '12345abcde'
+      required:
+        - userId
 security:
   - bearerAuth: []

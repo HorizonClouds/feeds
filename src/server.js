@@ -4,6 +4,7 @@ import express from 'express'; // Import Express framework
 import mongoose from 'mongoose'; // Import Mongoose for MongoDB
 import { swaggerSetup } from './swagger.js'; // Import Swagger setup
 import interestFilterApiRouter from './routes/interestFilterRoute.js'; // Import API routes
+import itinerariesFeedApiRouter from './routes/itinerariesFeedRoute.js'; // Import API routes
 import dotenv from 'dotenv'; // Import dotenv for environment variables
 import standardizedResponse from './middlewares/standardResponse.js'; // Import custom response middleware
 import { MongoMemoryServer } from 'mongodb-memory-server';
@@ -24,6 +25,7 @@ app.use(cors());
 
 // Routes
 app.use('/api/v1', interestFilterApiRouter);
+app.use('/api/v1', itinerariesFeedApiRouter);
 
 app.get('/', (req, res) => {
   // Redirect to API documentation
