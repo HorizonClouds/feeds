@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'; // Import Mongoose for MongoDB
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import './utils/logger.js';
 import config from './config.js';
 
 export async function connectDB() {

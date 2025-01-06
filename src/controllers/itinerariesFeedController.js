@@ -31,7 +31,6 @@ export const getItinerariesFeedByUserId = async (req, res, next) => {
     let userId = req.params.userId;
     let itinerariesFeed;
     if (userId === "default") {
-      console.log("hola");
       itinerariesFeed = await itinerariesFeedService.getItinerariesFeedDefault();
     } else {
       itinerariesFeed = await itinerariesFeedService.getItinerariesFeedByUserId(req.params.userId);

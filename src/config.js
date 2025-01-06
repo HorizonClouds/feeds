@@ -17,4 +17,8 @@ export default {
   kafkaServiceName: process.env.KAFKA_SERVICE_NAME || 'FEEDS',
   // Gateway URL
   gatewayUrl: process.env.GATEWAY_URL || 'http://localhost:6900',
+  // Redis configuration
+  redisHost: process.env.REDIS_HOST || 'localhost',
+  redisPort: process.env.REDIS_PORT || 6105,
+  redisTtl: process.env.REDIS_TTL || 60,
 };

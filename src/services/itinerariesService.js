@@ -3,8 +3,16 @@ import { getServiceUrl } from '../utils/infrastructure.js';
 import jwt from 'jsonwebtoken';
 import config from '../config.js';
 import { ItinerariesServiceError } from '../utils/customErrors.js';
+import { checkCache, storeInCache } from './cacheService.js';
 
 export async function getItineraries() {
+    const url = "getItineraries";
+    const cachedData = await checkCache(url);
+    if (cachedData) {
+        logger.info('[CACHED] Itineraries successfully retrieved.');
+        return cachedData;
+    }
+
     const itinerariesServiceUrl = await getServiceUrl('itineraries');
     if (!itinerariesServiceUrl) {
         logger.info('Cannot retrieve itinerary details: Itineraries service URL not found.');
@@ -18,6 +26,7 @@ export async function getItineraries() {
                 Authorization: `Bearer ${token}`,
             }
         });
+        await storeInCache(url, response.data);
         logger.info('Itineraries successfully retrieved.');
         logger.debug(JSON.stringify(response.data));
         return response.data;
