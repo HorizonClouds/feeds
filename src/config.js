@@ -21,4 +21,7 @@ export default {
   redisHost: process.env.REDIS_HOST || 'localhost',
   redisPort: process.env.REDIS_PORT || 6105,
   redisTtl: process.env.REDIS_TTL || 60,
+  // Throttling configuration
+  throttleWindowMs: process.env.THROTTLE_WINDOW_MS || 10 * 1000,
+  throttleMax: process.env.THROTTLE_MAX || 100,
 };

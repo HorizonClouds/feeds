@@ -150,4 +150,18 @@ describe('[Integration][Component] InterestFilter Tests', () => {
         expect(response.status).toBe(400);
         expect(response.body.appCode).toBe('VALIDATION_ERROR');
     });
+
+    // Rate limiting tests
+    it('[-] should return 429 if too many requests are made', async () => {
+        for (let i = 0; i < 101; i++) {
+            await request(app)
+                .get(`/api/v1/interestFilter/${exampleInterestFilter.userId}`)
+                .set('Authorization', `Bearer ${token1}`);
+        }
+        const response = await request(app)
+            .get(`/api/v1/interestFilter/${exampleInterestFilter.userId}`)
+            .set('Authorization', `Bearer ${token1}`);
+        expect(response.status).toBe(429);
+        expect(response.body).toHaveProperty('appCode', 'TOO_MANY_REQUESTS');
+    });
 });
