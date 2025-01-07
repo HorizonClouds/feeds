@@ -7,7 +7,12 @@ const router = express.Router();
 
 // Define routes
 router.post('/itinerariesFeed', checkAuth(), validateItinerariesFeedValidator.validateCreateItinerariesFeed, itinerariesFeedController.createItinerariesFeed);
-router.get('/itinerariesFeed/:userId', checkAuth(), itinerariesFeedController.getItinerariesFeedByUserId);
+router.get('/itinerariesFeed/:userId', (req, res, next) => {
+  if (req.params.userId !== "default") {
+    return checkAuth()(req, res, next);
+  }
+  next();
+}, itinerariesFeedController.getItinerariesFeedByUserId);
 router.put('/itinerariesFeed/:userId', checkAuth(), itinerariesFeedController.updateItinerariesFeedByUserId);
 
 export default router;
