@@ -42,9 +42,7 @@ export const createItinerariesFeed = async (userId) => {
 };
 
 export const getPrioritizedItineraries = async (userId) => {
-  const itinerariesResponse = await getItineraries();
-  const itineraries = itinerariesResponse.data;
-
+  const itineraries = await getItineraries();
   const interestFilter = await getInterestFilterByUserId(userId);
 
   itineraries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

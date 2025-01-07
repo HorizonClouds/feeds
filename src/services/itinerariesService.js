@@ -4,10 +4,14 @@ import jwt from 'jsonwebtoken';
 import config from '../config.js';
 import { ItinerariesServiceError } from '../utils/customErrors.js';
 import { checkCache, storeInCache } from './cacheService.js';
+import circuitBreaker from '../utils/circuitBreaker.js';
 
 export async function getItineraries() {
     const url = "getItineraries";
-    const cachedData = await checkCache(url);
+    let cachedData;
+    if(config.redisCacheEnabled === 'true')
+        cachedData = await checkCache(url);
+
     if (cachedData) {
         logger.info('[CACHED] Itineraries successfully retrieved.');
         return cachedData;
@@ -21,18 +25,23 @@ export async function getItineraries() {
     const token = jwt.sign({ serviceId: 'feeds-service', message: "Hello From FEEDS Service" }, config.jwtSecret, {});
 
     try {
-        const response = await axios.get(`${itinerariesServiceUrl}/api/v1/itineraries`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
+        let callback = async () => {
+            try {
+                let res = await axios.get(`${itinerariesServiceUrl}/api/v1/itineraries`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                return res.data;
+            } catch (error) {
+                throw new ItinerariesServiceError('Error retrieving itinerary details', result.details);
             }
-        });
-        await storeInCache(url, response.data);
+        }
+        let result = await circuitBreaker(callback);
+        await storeInCache(url, result.response.data);
         logger.info('Itineraries successfully retrieved.');
-        logger.debug(JSON.stringify(response.data));
-        return response.data;
+        return result.response.data;
     } catch (error) {
         logger.info('Error retrieving itineraries');
-        throw new ItinerariesServiceError('Error retrieving itinerary details', { code: error.code, message: error.message, responseData: error.response?.data });
+        throw new ItinerariesServiceError('Error retrieving itinerary details', error);
     }
 }
 

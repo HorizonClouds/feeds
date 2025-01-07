@@ -31,5 +31,5 @@ export default {
   // Circuit breaker configuration
   CBreakerFailureThreshold: process.env.CBREAKER_FAILURE_THRESHOLD || 5,
   CBreakerSuccessThreshold: process.env.CBREAKER_SUCCESS_THRESHOLD || 3,
-  CBreakerResetTimeout: process.env.CBREAKER_RESET_TIMEOUT || 30000,
+  CBreakerResetTimeout: parseInt(process.env.CBREAKER_RESET_TIMEOUT) || 30000,
 };
