@@ -1,3 +1,4 @@
+import './utils/logger.js';
 import express from 'express'; // Import Express framework
 import { swaggerSetup } from './swagger.js'; // Import Swagger setup
 import interestFilterApiRouter from './routes/interestFilterRoute.js'; // Import API routes
@@ -5,7 +6,6 @@ import itinerariesFeedApiRouter from './routes/itinerariesFeedRoute.js'; // Impo
 import standardizedResponse from './middlewares/standardResponse.js'; // Import custom response middleware
 import errorHandler from './middlewares/errorHandler.js';
 import cors from 'cors'; // Import CORS middleware
-import './utils/logger.js';
 import config from './config.js';
 import rateLimit from 'express-rate-limit'; // Import rate limiting middleware
 
