@@ -18,10 +18,18 @@ export default {
   // Gateway URL
   gatewayUrl: process.env.GATEWAY_URL || 'http://localhost:6900',
   // Redis configuration
+  redisCacheEnabled: process.env.REDIS_CACHE_ENABLED || false,
   redisHost: process.env.REDIS_HOST || 'localhost',
   redisPort: process.env.REDIS_PORT || 6105,
   redisTtl: process.env.REDIS_TTL || 60,
   // Throttling configuration
   throttleWindowMs: process.env.THROTTLE_WINDOW_MS || 10 * 1000,
   throttleMax: process.env.THROTTLE_MAX || 100,
+  // Rate limiting configuration
+  maxRequestsPerMinute: process.env.RL_MAX_REQUESTS_PER_MINUTE || 1000,
+  minIntervalBetweenRequests: process.env.RL_MIN_INTERVAL_BETWEEN_REQUESTS || 0,
+  // Circuit breaker configuration
+  CBreakerFailureThreshold: process.env.CBREAKER_FAILURE_THRESHOLD || 5,
+  CBreakerSuccessThreshold: process.env.CBREAKER_SUCCESS_THRESHOLD || 3,
+  CBreakerResetTimeout: process.env.CBREAKER_RESET_TIMEOUT || 30000,
 };

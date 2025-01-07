@@ -2,7 +2,7 @@ import { createClient } from 'redis';
 import config from '../config.js';
 
 let client;
-if(config.infrastructureIntegration === 'true')
+if(config.redisCacheEnabled === 'true')
     getClient();
 
 async function getClient() {
@@ -23,7 +23,7 @@ async function getClient() {
         logger.info('Connected to Redis');
 
         client.on('error', (error) => {
-            logger.info(`Redis client error detected, disconnecting... `);
+            logger.debug(`Redis client error detected, disconnecting... `);
             client.disconnect();
         });
         client.on('end', () => {
@@ -33,7 +33,7 @@ async function getClient() {
 
         return client;
     } catch (error) {
-        logger.info(`Error connecting to Redis ${error.code}`);
+        logger.debug(`Error connecting to Redis ${error.code}`);
         client = null;
         return null;
     }
