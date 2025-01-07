@@ -52,4 +52,8 @@ const debug = async (message) => {
   }
 };
 
+export const logger = { info, debug };
+
+export default logger;
+
 global.logger = { info, debug };

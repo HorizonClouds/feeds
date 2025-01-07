@@ -1,5 +1,6 @@
 import { createClient } from 'redis';
 import config from '../config.js';
+import logger from '../utils/logger.js';
 
 let client;
 if(config.redisCacheEnabled === 'true')
