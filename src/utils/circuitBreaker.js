@@ -71,11 +71,9 @@ const circuitBreaker = async (getResponseCallback, forceOpen = false) => {
             circuitState = 'OPEN';
             errorTimestamps = [];
         }
-        console.log(getUpdatedDetails());
         throw error;
     }
 
-    console.log(getUpdatedDetails());
     return { response: response, details: getUpdatedDetails() };
 }
 
