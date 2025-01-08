@@ -1,53 +1,32 @@
 openapi: 3.0.0
 info:
-  title: Example API
+  title: Feeds API
   version: 1.0.0
-  description: API documentation for Example microservice
+  description: API documentation for feeds microservice
+  x-rateLimit:
+    window: 10 segundos
+    maxRequests: 100
+    message: Too many requests, please try again later.
 servers:
-  - url: http://localhost:3000/api/v1
+  - url: /api/v1
+    description: endpoint for development
+  - url: /api/v1/feeds/api/v1
+    description: endpoint for api gateway
 paths:
-  /examples:
-    get:
-      summary: Get all examples
-      tags:
-        - Example
-      responses:
-        '200':
-          description: A list of examples
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: success
-                  message:
-                    type: string
-                    example: Success!
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Example'
-                  appCode:
-                    type: string
-                    example: OK
-                  timestamp:
-                    type: string
-                    example: '2023-10-01T12:00:00.000Z'
+  /interestFilter:
     post:
-      summary: Create a new example
+      summary: Create a new interestFilter
       tags:
-        - Example
+        - InterestFilter
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewExample'
+              $ref: '#/components/schemas/NewInterestFilter'
       responses:
         '201':
-          description: The created example
+          description: The created interestFilter
           content:
             application/json:
               schema:
@@ -58,77 +37,61 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: Example created successfully
+                    example: InterestFilter created successfully
                   data:
-                    $ref: '#/components/schemas/Example'
+                    $ref: '#/components/schemas/InterestFilter'
                   appCode:
                     type: string
                     example: OK
                   timestamp:
                     type: string
                     example: '2023-10-01T12:00:00.000Z'
-  /examples/{id}:
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
+  /interestFilter/{userId}: 
     get:
-      summary: Get a specific example by ID
+      summary: Get a specific interestFilter by userId
       tags:
-        - Example
+        - InterestFilter
       parameters:
         - in: path
-          name: id
+          name: userId
           required: true
-          description: ID of the example to get
+          description: userId of the interestFilter to get
           schema:
             type: string
       responses:
         '200':
-          description: The requested example
+          description: The requested interestFilter
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: success
-                  message:
-                    type: string
-                    example: Success!
-                  data:
-                    $ref: '#/components/schemas/Example'
-                  appCode:
-                    type: string
-                    example: OK
-                  timestamp:
-                    type: string
-                    example: '2023-10-01T12:00:00.000Z'
+                $ref: '#/components/schemas/InterestFilter'
         '404':
-          description: Example not found
+          description: InterestFilter not found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  message:
-                    type: string
-                    example: Example not found
-                  appCode:
-                    type: string
-                    example: UNKNOWN_ERROR
-                  timestamp:
-                    type: string
-                    example: '2023-10-01T12:00:00.000Z'
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
     put:
-      summary: Update an existing example by ID
+      summary: Update an existing interestFilter by userId
       tags:
-        - Example
+        - InterestFilter
       parameters:
         - in: path
-          name: id
+          name: userId
           required: true
-          description: ID of the example to update
+          description: userId of the interestFilter to update
           schema:
             type: string
       requestBody:
@@ -136,10 +99,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Example'
+              $ref: '#/components/schemas/UpdateInterestFilter'
       responses:
         '200':
-          description: The updated example
+          description: The updated interestFilter
           content:
             application/json:
               schema:
@@ -150,9 +113,9 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: Example updated successfully
+                    example: InterestFilter updated successfully
                   data:
-                    $ref: '#/components/schemas/Example'
+                    $ref: '#/components/schemas/InterestFilter'
                   appCode:
                     type: string
                     example: OK
@@ -160,40 +123,58 @@ paths:
                     type: string
                     example: '2023-10-01T12:00:00.000Z'
         '404':
-          description: Example not found
+          description: InterestFilter not found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  message:
-                    type: string
-                    example: Example not found
-                  appCode:
-                    type: string
-                    example: UNKNOWN_ERROR
-                  timestamp:
-                    type: string
-                    example: '2023-10-01T12:00:00.000Z'
+                $ref: '#/components/schemas/Error'  
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
+  /interestFilter/{id}:
     delete:
-      summary: Delete an example by ID
+      summary: Delete an existing interestFilter by ID
       tags:
-        - Example
+        - InterestFilter
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the example to delete
+          description: ID of the interestFilter to delete
           schema:
             type: string
       responses:
         '204':
-          description: Successfully deleted
+          description: InterestFilter deleted successfully
         '404':
-          description: Example not found
+          description: InterestFilter not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
+  /itinerariesFeed:
+    post:
+      summary: Create a new itinerariesFeed
+      tags:
+        - ItinerariesFeed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewItinerariesFeed'
+      responses:
+        '201':
+          description: The created itinerariesFeed
           content:
             application/json:
               schema:
@@ -201,42 +182,230 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: error
+                    example: success
                   message:
                     type: string
-                    example: Example not found
+                    example: ItinerariesFeed created successfully
+                  data:
+                    $ref: '#/components/schemas/ItinerariesFeed'
                   appCode:
                     type: string
-                    example: UNKNOWN_ERROR
+                    example: OK
                   timestamp:
                     type: string
                     example: '2023-10-01T12:00:00.000Z'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
+  /itinerariesFeed/{userId}:
+    get:
+      summary: Get a specific itinerariesFeed by userId
+      tags:
+        - ItinerariesFeed
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: userId of the itinerariesFeed to get
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested itinerariesFeed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItinerariesFeed'
+        '404':
+          description: ItinerariesFeed not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
+    put:
+      summary: Update an existing itinerariesFeed by userId
+      tags:
+        - ItinerariesFeed
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: userId of the itinerariesFeed to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The updated itinerariesFeed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: ItinerariesFeed updated successfully
+                  data:
+                    $ref: '#/components/schemas/ItinerariesFeed'
+                  appCode:
+                    type: string
+                    example: OK
+                  timestamp:
+                    type: string
+                    example: '2023-10-01T12:00:00.000Z'
+        '404':
+          description: ItinerariesFeed not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThrottleError'
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
-    Example:
+    InterestFilter:
       type: object
       properties:
         _id:
           type: string
           example: '60c72b2f9b1d8f0d8d0b6f9e'
-        name:
+        userId:
           type: string
-          example: Example Name
-        value:
-          type: number
-          example: 123
+          example: '12345abcde'
+        categoryList:
+          type: array
+          items:
+            type: string
+            enum:
+              - NATURE
+              - CITY
+              - CULTURE
+              - ADVENTURE
+              - RELAX
+          example:
+            - NATURE
+            - CULTURE
       required:
-        - name
-        - value
-    NewExample:
+        - userId
+        - categoryList
+    NewInterestFilter:
       type: object
       properties:
-        name:
+        userId:
           type: string
-          example: Example Name
-        value:
-          type: number
-          example: 123
+          example: '12345abcde'
+        categoryList:
+          type: array
+          items:
+            type: string
+            enum:
+              - NATURE
+              - CITY
+              - CULTURE
+              - ADVENTURE
+              - RELAX
+          example:
+            - CITY
+            - ADVENTURE
       required:
-        - name
-        - value
+        - userId
+        - categoryList
+    UpdateInterestFilter:
+      type: object
+      properties:
+        categoryList:
+          type: array
+          items:
+            type: string
+            enum:
+              - NATURE
+              - CITY
+              - CULTURE
+              - ADVENTURE
+              - RELAX
+          example:
+            - CITY
+            - ADVENTURE
+      required:
+        - categoryList
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: InterestFilter not found
+        appCode:
+          type: string
+          example: UNKNOWN_ERROR
+        timestamp:
+          type: string
+          example: '2023-10-01T12:00:00.000Z'
+    ItinerariesFeed:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '60c72b2f9b1d8f0d8d0b6f9e'
+        userId:
+          type: string
+          example: '12345abcde'
+        creationDate:
+          type: string
+          format: date-time
+          example: '2023-10-01T12:00:00.000Z'
+        itineraryList:
+          type: array
+          items:
+            type: object
+      required:
+        - userId
+        - creationDate
+        - itineraryList
+    NewItinerariesFeed:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: '12345abcde'
+      required:
+        - userId
+    ThrottleError:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: Too many requests, please try again later.
+        appCode:
+          type: string
+          example: TOO_MANY_REQUESTS
+        timestamp:
+          type: string
+          example: '2023-10-01T12:00:00.000Z'
+security:
+  - bearerAuth: []
